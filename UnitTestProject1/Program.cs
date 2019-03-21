@@ -35,16 +35,6 @@ namespace AquaChem
         {
             String choice;
             List<Stat> Stats = new List<Stat>();
-
-            //////////// TODO To be removed / for testing only
-            List<Stat> TestStats = new List<Stat>();
-            TestStats.Add(new Stat(DateTime.Now, 1, 1, 1, 1, 1));
-            TestStats.Add(new Stat(DateTime.Now, 1, 1, 1, 1, 1));
-            TestStats.Add(new Stat(DateTime.Now, 7, 7, 7, 7, 7));
-            TestStats.Add(new Stat(DateTime.Now, 3, 3, 3, 3, 3));
-            TestStats.Add(new Stat(DateTime.Now, 2, 2, 2, 2, 2));
-            Stats = TestStats;
-            ///////////
             do
             {
                 Console.WriteLine("Aquarium Chemistry Tracker");
@@ -104,19 +94,15 @@ namespace AquaChem
             switch (choice)
             {
                 case "1":
-                    Console.Clear();
-                    Console.WriteLine(DisplayList(stats));
+                    Console.WriteLine(ViewList(stats));
                     Console.ReadLine();
                     break;
                 case "2":
-                    Console.Clear();
-                    Console.WriteLine(DisplayChange(stats));
+                    Console.WriteLine(ViewChange(stats));
                     Console.ReadLine();
                     break;
                 case "3":
-                    Console.Clear();
-                    DisplayGraph(stats);
-                    Console.ReadLine();
+                    //ViewGraph(stats);
                     break;
                 case "4":
                     //return to previous menu
@@ -129,57 +115,18 @@ namespace AquaChem
 
         }
 
-        private static void DisplayGraph(List<Stat> stats)
-        {
-            foreach(Stat item in stats)
-            {
-                Console.Write(item.Date);
-                for(int i = 0; i < item.Temperature; i++)
-                {
-                    Console.Write("*");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        public static String DisplayChange(List<Stat> stats)
+        private static String ViewChange(List<Stat> stats)
         {
             String output = "Value Highest Lowest Average\n";
 
-            //easier way of iterating through object properties?
-            
             decimal maxTemp = stats.Max(t => t.Temperature);
-            decimal minTemp = stats.Min(t => t.Temperature);
-            decimal avgTemp = stats.Average(t => t.Temperature);
-            output += $"Temperature: {maxTemp} {minTemp} {avgTemp}\n";
-
-            decimal maxPh = stats.Max(t => t.PH);
-            decimal minPh = stats.Min(t => t.PH);
-            decimal avgPh = stats.Average(t => t.PH);
-            output += $"Ph: {maxPh} {minPh} {avgPh}\n";
-
-            decimal maxAmm = stats.Max(t => t.Ammonia);
-            decimal minAmm = stats.Min(t => t.Ammonia);
-            decimal avgAmm = stats.Average(t => t.Ammonia);
-            output += $"Ammonia: {maxAmm} {minAmm} {avgAmm}\n";
-
-            decimal maxNi = stats.Max(t => t.Nitrites);
-            decimal minNi = stats.Min(t => t.Nitrites);
-            decimal avgNi = stats.Average(t => t.Nitrites);
-            output += $"Nitrites: {maxNi} {minNi} {avgNi}\n";
-
-            decimal maxNa = stats.Max(t => t.Nitrates);
-            decimal minNa = stats.Min(t => t.Nitrates);
-            decimal avgNa = stats.Average(t => t.Nitrates);
-            output += $"Nitrates: {maxNa} {minNa} {avgNa}\n";
-
-           
+            decimal lowTemp = stats.Min(t => t.Temperature);
+            output += $"Temperature: {maxTemp} {lowTemp}";
 
             return output;
         }
 
-        
-        private static String DisplayList(List<Stat> stats)
+        private static String ViewList(List<Stat> stats)
         {
             String output = "Date      Temp   pH     Ammonia   Nitrites Nitrates\n";
             foreach(Stat item in stats)
