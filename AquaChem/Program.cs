@@ -9,25 +9,16 @@ namespace AquaChem
     class Program
     {
         /*TODO Overall
-         * finish viewlist
-         * rename to printlist?
+         * 
          * Catch wrong entries in newtestresult. number entries only
          * 
-         * Update
-         * Delete
-         *  single
-         *  all
-         *  binary/database
-         * View
-         * Search 
          * 
-         * save to binary
+         * save to binary?
          * connect to database
          * save to database
          * save to text file?
          * 
-         * DONE
-         * Insert
+         * 
          */ 
 
 
@@ -71,7 +62,9 @@ namespace AquaChem
                         break;
                     case "3":
                         Console.Clear();
-                        //clearData
+                        //clearData(Stats);
+                        //local or database?
+                        Stats.Clear();
                         Console.Clear();
                         break;
                     default:
@@ -115,7 +108,7 @@ namespace AquaChem
                     break;
                 case "3":
                     Console.Clear();
-                    DisplayGraph(stats);
+                    Console.WriteLine(DisplayGraph(stats));
                     Console.ReadLine();
                     break;
                 case "4":
@@ -129,17 +122,90 @@ namespace AquaChem
 
         }
 
-        private static void DisplayGraph(List<Stat> stats)
+        private static string DisplayGraph(List<Stat> stats)
         {
-            foreach(Stat item in stats)
+            //Any way to refactor to pass to a method?
+            String choice;
+            String output = "";
+            Console.WriteLine("Select the value to be graphed:");
+            Console.WriteLine("1. Temperature");
+            Console.WriteLine("2. PH");
+            Console.WriteLine("3. Ammonia");
+            Console.WriteLine("4.Nitrites");
+            Console.WriteLine("5. Nitrates");
+            choice = Console.ReadLine();
+
+            switch (choice)
             {
-                Console.Write(item.Date);
-                for(int i = 0; i < item.Temperature; i++)
-                {
-                    Console.Write("*");
-                }
-                Console.WriteLine();
+                case "1":
+                    Console.Clear();
+                    foreach (Stat item in stats)
+                    {
+                        output += item.Date.ToShortDateString();
+                        for (int i = 0; i < item.Temperature; i++)
+                        {
+                            output +="*";
+                        }
+                        output += "\n";
+                    }
+                    break;
+                case "2":
+                    Console.Clear();
+                    Console.Clear();
+                    foreach (Stat item in stats)
+                    {
+                        output += item.Date.ToShortDateString();
+                        for (int i = 0; i < item.PH; i++)
+                        {
+                            output += "*";
+                        }
+                        output += "\n";
+                    }
+                    break;
+                case "3":
+                    Console.Clear();
+                    foreach (Stat item in stats)
+                    {
+                        output += item.Date.ToShortDateString();
+                        for (int i = 0; i < item.Ammonia; i++)
+                        {
+                            output += "*";
+                        }
+                        output += "\n";
+                    }
+                    break;
+                case "4":
+                    Console.Clear();
+                    Console.Clear();
+                    foreach (Stat item in stats)
+                    {
+                        output += item.Date.ToShortDateString();
+                        for (int i = 0; i < item.Nitrites; i++)
+                        {
+                            output += "*";
+                        }
+                        output += "\n";
+                    }
+                    break;
+                case "5":
+                    Console.Clear();
+                    foreach (Stat item in stats)
+                    {
+                        output += item.Date.ToShortDateString();
+                        for (int i = 0; i < item.Nitrates; i++)
+                        {
+                            output += "*";
+                        }
+                        output += "\n";
+                    }
+                    break;
+                default:
+                    //catches 
+                    Console.WriteLine("Please enter a number 1-5");
+                    break;
             }
+
+            return output;
         }
 
         public static String DisplayChange(List<Stat> stats)
@@ -181,14 +247,13 @@ namespace AquaChem
         
         private static String DisplayList(List<Stat> stats)
         {
+            //TODO cleanup and lineup print
             String output = "Date      Temp   pH     Ammonia   Nitrites Nitrates\n";
             foreach(Stat item in stats)
             {
-                //TODO cleanup and lineup print
                 output += $"{item.Date} {item.Temperature} {item.PH} {item.Ammonia} {item.Nitrites} {item.Nitrates}\n";
-              
             }
-            
+                        
             return output;
         }
 
@@ -235,6 +300,7 @@ namespace AquaChem
 
             Console.WriteLine("New Stat Added");
             Console.ReadLine();
+           
             //TODO add to database
             stats.Add(newstat);
             
